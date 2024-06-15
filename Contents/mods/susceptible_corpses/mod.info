@@ -1,0 +1,6 @@
+name=Susceptible Corpses
+id=susceptible_corpses
+description=An extension for the Susceptible mod that causes recently-killed zombie corpses to spread the infection.
+poster=poster.png
+pzversion=41.78
+require=Susceptible

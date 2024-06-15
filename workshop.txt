@@ -1,0 +1,11 @@
+version=1
+id=3267306459
+title=Susceptible Corpses
+description=An extension for the Susceptible mod that causes recently-killed zombie corpses to spread the infection.
+description=
+description=Theoretically compatible with Susceptible Overhaul, but I haven't tested it.
+description=
+description=Github repository: Coming soon
+description=Ko-fi: https://ko-fi.com/noellelavenza
+tags=Build 41;Balance;Hardmode;Misc;Realistic
+visibility=public
