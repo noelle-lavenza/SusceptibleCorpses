@@ -1,0 +1,10 @@
+Sandbox_EN = {
+    Sandbox_SusceptibleCorpses = "Susceptible Corpses",
+
+    Sandbox_SusceptibleCorpses_MaxCorpseAgeHours = "Max Corpse Age (Hours)",
+    Sandbox_SusceptibleCorpses_MaxCorpseAgeHours_tooltip = "Corpses older than this will cease to be infectious."
+    Sandbox_SusceptibleCorpses_CorpseInfectionThreat = "Corpse Infection Threat",
+    Sandbox_SusceptibleCorpses_CorpseInfectionThreat_tooltip = "The 'infection threat' contributed per corpse. Live zombies are 2 by default."
+    Sandbox_SusceptibleCorpses_CorpseInfectionDistanceDivisor = "Corpse Infection Distance Divisor",
+    Sandbox_SusceptibleCorpses_CorpseInfectionDistanceDivisor_tooltip = "The divisor used to reduce the infection distance compared to live zombies. For example, 2 means half the distance."
+}

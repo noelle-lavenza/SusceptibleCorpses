@@ -8,14 +8,11 @@ susceptibleCorpses = susceptibleCorpses or {}
 -- we keep a reference to the original method so as to not break with future mod updates
 susceptibleCorpses.oldCalculateThreat = susceptibleCorpses.oldCalculateThreat or SusceptibleMod.calculateThreat
 
--- todo: make this a sandbox config option
-susceptibleCorpses.MAX_INFECTION_AGE_HOURS = 48 -- by default, corpses are only infectious for 48 hours
-
 -- some of this code is reused from the base mod
 SusceptibleMod.calculateThreat = function (player)
 	-- start reused code. I hate that this is necessary but it's not exposed any other way
 	-- maybe I can ask the mod author to make infection distance and multiplier parameters to calculateThreat
-	local corpseInfectionDistance = SusceptibleMod.calculateInfectionDistance(player) / 2; -- corpses have a lower viral load and so a shorter distance
+	local corpseInfectionDistance = SusceptibleMod.calculateInfectionDistance(player) / SandboxVars.SusceptibleCorpses.CorpseInfectionDistanceDivisor; -- corpses are less active and so spread the infection a shorter distance
 	local isOutside = player:isOutside();
 
 	local multiplier = 1;
@@ -38,6 +35,7 @@ SusceptibleMod.calculateThreat = function (player)
 	local playerX, playerY, playerZ = playerSquare:getX(), playerSquare:getY(), playerSquare:getZ();
 	local corpsesSquare, corpseDistance, squareCorpses, currentCorpse;
 	local currentWorldAgeHours = getGameTime():getWorldAgeHours();
+	local corpseInfectionThreat, maxCorpseAgeHours = SandboxVars.SusceptibleCorpses.CorpseInfectionThreat, SandboxVars.SusceptibleCorpses.MaxCorpseAgeHours;
 	for dX = -corpseInfectionDistance, corpseInfectionDistance do
 		for dY = -corpseInfectionDistance, corpseInfectionDistance do repeat -- repeat until true end allows us to use break as continue instead
 			corpsesSquare = cell:getGridSquare(playerX+dX, playerY+dY, playerZ);
@@ -59,7 +57,7 @@ SusceptibleMod.calculateThreat = function (player)
 						end
 					end
 				end
-				if currentWorldAgeHours > (getClassFieldVal(currentCorpse, susceptibleCorpses.deathTimeField) + susceptibleCorpses.MAX_INFECTION_AGE_HOURS) then -- too old to be infectious
+				if currentWorldAgeHours > (getClassFieldVal(currentCorpse, susceptibleCorpses.deathTimeField) + maxCorpseAgeHours) then -- too old to be infectious
 					break; -- continue
 				end
 				corpseDistance = player:DistTo(currentCorpse);
@@ -67,12 +65,12 @@ SusceptibleMod.calculateThreat = function (player)
 					break; -- continue
 				end
 				if not currentCorpse:isZombie() then
-					paranoiaLevel = paranoiaLevel + 1;
+					paranoiaLevel = paranoiaLevel + corpseInfectionThreat;
 				else
 					if corpseDistance < 1 then
-						threatLevel = threatLevel + 1;
+						threatLevel = threatLevel + corpseInfectionThreat;
 					else
-						threatLevel = threatLevel + (1 / (0.75 + corpseDistance * 0.25));
+						threatLevel = threatLevel + (corpseInfectionThreat / (0.75 + corpseDistance * 0.25));
 					end
 				end
 			until true end
